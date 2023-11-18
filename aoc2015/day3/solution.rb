@@ -10,7 +10,7 @@ robo_position.x = 0
 robo_position.y = 0
 
 santa_map = {santa_position.values => 1}
-robo_santa_map = {robo_position.values => 1}
+robo_map = {robo_position.values => 1}
 
 def move_direction(character)
   x_change = 0
@@ -31,7 +31,7 @@ def move_direction(character)
 end
 
 def update_map(character, position, visited_map)
-  x_move, y_move = move_direction(char)
+  x_move, y_move = move_direction(character)
   position.x = position.x + x_move
   position.y = position.y + y_move
   if visited_map[position.values]
@@ -46,14 +46,13 @@ string_array = input_txt.chars
 
 string_array.each_with_index do |char, i|
   if i % 2 == 0
-    # santa move
+    #santa move
     santa_position, santa_map = update_map(char, santa_position, santa_map)
   else  
-    # robo move
+    #robo move
     robo_position, robo_map = update_map(char, robo_position, robo_map)
   end
 end
 
-p santa_map.length
-p robo_map.length
+puts santa_map.merge(robo_map).length
 
