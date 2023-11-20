@@ -26,11 +26,28 @@ def update_lights(m, rows, cols, command)
     return m
 end
 
+def pt_2_update_lights(m, rows, cols, command)    
+    rows.each do |x|
+        cols.each do |y|
+            if command == 'on'
+                m[x][y] = m[x][y] + 1
+            elsif command == 'off'
+                m[x][y] = [m[x][y]-1, 0].max
+            elsif command == 'toggle'
+                m[x][y] = m[x][y] + 2
+            else
+                puts 'Error! Invalid command.'
+            end
+        end
+    end
+    return m
+end
+
 # generate a matrix for the lights
 matrix = []
 
 for i in 1..1000
-    row = 1000.times.map{ false }
+    row = 1000.times.map{ 0 }
     matrix.push(row)
 end
 
@@ -45,11 +62,11 @@ for line in input_lines.map { |l| l.split }
 # check for toggle, on, or off
     if line.length == 4
         c = 'toggle'
-        matrix = update_lights(matrix, rows_range, cols_range, c)
+        matrix = pt_2_update_lights(matrix, rows_range, cols_range, c)
     else 
         c = line[1]
-        matrix = update_lights(matrix, rows_range, cols_range, c)
+        matrix = pt_2_update_lights(matrix, rows_range, cols_range, c)
     end
 end
 
-puts matrix.flatten.count(true)
+puts matrix.flatten.sum
